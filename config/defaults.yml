@@ -1,0 +1,7 @@
+AWSRegion: "ca-central-1"
+DBHost: 192.168.86.137
+DBName: "shts"
+DBPassword: ""
+DBUser: ""
+SsmPath: "shts"
+Stage: "dev"

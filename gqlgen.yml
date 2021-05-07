@@ -13,9 +13,9 @@ exec:
 #   package: generated
 
 # Where should any generated models go?
-model:
-  filename: graph/model/models_gen.go
-  package: model
+# model:
+#   filename: graph/model/models_gen.go
+#   package: modelg
 
 # Where should the resolver implementations go?
 resolver:
@@ -34,8 +34,8 @@ resolver:
 
 # gqlgen will search for any type names in the schema in these go packages
 # if they match it will use them, otherwise it will generate them.
-autobind:
-  - "github.com/pulpfree/shts-api/graph/model"
+# autobind:
+  # - "github.com/pulpfree/shts-api/graph/model"
 
 # This section declares type mapping between the GraphQL and go type systems
 #
@@ -43,14 +43,35 @@ autobind:
 # modelgen, the others will be allowed when binding to fields. Configure them to
 # your liking
 models:
-  ID:
-    model:
-      - github.com/99designs/gqlgen/graphql.ID
-      - github.com/99designs/gqlgen/graphql.Int
-      - github.com/99designs/gqlgen/graphql.Int64
-      - github.com/99designs/gqlgen/graphql.Int32
-  Int:
-    model:
-      - github.com/99designs/gqlgen/graphql.Int
-      - github.com/99designs/gqlgen/graphql.Int64
-      - github.com/99designs/gqlgen/graphql.Int32
+  # ID:
+  #   model:
+  #     - github.com/99designs/gqlgen/graphql.ID
+  #     - github.com/99designs/gqlgen/graphql.Int
+  #     - github.com/99designs/gqlgen/graphql.Int64
+  #     - github.com/99designs/gqlgen/graphql.Int32
+  # Int:
+  #   model:
+  #     - github.com/99designs/gqlgen/graphql.Int
+  #     - github.com/99designs/gqlgen/graphql.Int64
+  #     - github.com/99designs/gqlgen/graphql.Int32
+  Address:
+    model: github.com/pulpfree/shts-api/model.Address
+  Customer:
+    model: github.com/pulpfree/shts-api/model.Customer
+  CreateAddress:
+    model: github.com/pulpfree/shts-api/model.CreateAddress
+  CreateCustomer:
+    model: github.com/pulpfree/shts-api/model.CreateCustomer
+  CreateName:
+    model: github.com/pulpfree/shts-api/model.CreateName
+  UpdateAddress:
+    model: github.com/pulpfree/shts-api/model.UpdateAddress
+  UpdateCustomer:
+    model: github.com/pulpfree/shts-api/model.UpdateCustomer
+  UpdateName:
+    model: github.com/pulpfree/shts-api/model.UpdateName
+  Name:
+    model: github.com/pulpfree/shts-api/model.Name
+  NamePrefix:
+    model: github.com/pulpfree/shts-api/model.NamePrefix
+

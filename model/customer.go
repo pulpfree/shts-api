@@ -45,8 +45,8 @@ type CreateCustomer struct {
 	Email     *string        `json:"email"`
 	Name      *CreateName    `json:"name"`
 	Phone     *string        `json:"phone"`
-	CreatedAt time.Time      `json:"createdAt"`
-	UpdatedAt time.Time      `json:"updatedAt"`
+	CreatedAt time.Time      `bson:"createdAt" json:"createdAt"`
+	UpdatedAt time.Time      `bson:"updatedAt" json:"updatedAt"`
 }
 
 type CreateName struct {

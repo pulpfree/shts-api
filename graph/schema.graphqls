@@ -82,4 +82,8 @@ type Mutation {
   deleteCustomer(id: ID!): Boolean!
 }
 
+type Subscription {
+    customerCreated: Customer!
+}
+
 scalar Time

@@ -16,7 +16,6 @@ func (r *customerResolver) ID(ctx context.Context, obj *model.Customer) (string,
 }
 
 func (r *mutationResolver) CreateCustomer(ctx context.Context, input model.CreateCustomer) (*model.Customer, error) {
-
 	return r.service.CreateCustomer(&input)
 }
 
@@ -29,11 +28,20 @@ func (r *mutationResolver) DeleteCustomer(ctx context.Context, id string) (bool,
 }
 
 func (r *queryResolver) Customers(ctx context.Context) ([]*model.Customer, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.service.ListCustomers()
 }
 
 func (r *queryResolver) Customer(ctx context.Context, id string) (*model.Customer, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.service.GetCustomer(id)
+}
+
+func (r *subscriptionResolver) CustomerCreated(ctx context.Context) (<-chan *model.Customer, error) {
+	subscription := r.service.SubscribeCustomerCreation()
+	go func() {
+		<-ctx.Done()
+		r.service.UnsubscribeCustomerCreation(subscription)
+	}()
+	return subscription.CreationStream, nil
 }
 
 // Customer returns generated.CustomerResolver implementation.
@@ -45,6 +53,10 @@ func (r *Resolver) Mutation() generated.MutationResolver { return &mutationResol
 // Query returns generated.QueryResolver implementation.
 func (r *Resolver) Query() generated.QueryResolver { return &queryResolver{r} }
 
+// Subscription returns generated.SubscriptionResolver implementation.
+func (r *Resolver) Subscription() generated.SubscriptionResolver { return &subscriptionResolver{r} }
+
 type customerResolver struct{ *Resolver }
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
+type subscriptionResolver struct{ *Resolver }

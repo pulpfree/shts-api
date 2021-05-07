@@ -7,15 +7,19 @@ import (
 
 type IRepository interface {
 	CreateCustomer(customer *model.CreateCustomer) (*model.Customer, error)
+	GetOne(string) (*model.Customer, error)
+	GetAll() ([]*model.Customer, error)
+	GetCreationStream() chan *model.Customer
 }
 
 type Repository struct {
-	db *mongo.MDB
+	db             *mongo.MDB
+	creationStream chan *model.Customer
 }
 
 func NewRepository(db *mongo.MDB) *Repository {
 	return &Repository{
-		db: db,
-		// creationStream: make(chan *model.Article),
+		db:             db,
+		creationStream: make(chan *model.Customer),
 	}
 }

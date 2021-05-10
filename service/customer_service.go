@@ -1,11 +1,30 @@
 package service
 
 import (
+	"fmt"
+
 	"github.com/pulpfree/shts-api/model"
 )
 
 func (svc *Service) CreateCustomer(input *model.CreateCustomer) (*model.Customer, error) {
 	return svc.repo.CreateCustomer(input)
+}
+
+func (svc *Service) UpdateCustomer(id string, update *model.UpdateCustomer) (*model.Customer, error) {
+	customer, err := svc.repo.GetOne(id)
+	if err != nil {
+		return nil, err
+	}
+	customer, err = update.MergeChanges(customer)
+	if err != nil {
+		return nil, err
+	}
+	return svc.repo.SaveCustomer(customer)
+}
+
+func (svc *Service) SaveCustomer(input *model.Customer) (*model.Customer, error) {
+	fmt.Printf("input: %+v\n", input)
+	return svc.repo.SaveCustomer(input)
 }
 
 func (svc *Service) GetCustomer(id string) (*model.Customer, error) {

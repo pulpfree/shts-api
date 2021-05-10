@@ -21,9 +21,11 @@ func (repo *Repository) CreateCustomer(customer *model.CreateCustomer) (*model.C
 	ctx, cancel := context.WithTimeout(cntx, 5*time.Second)
 	defer cancel()
 	created := false
+	province := "ON"
 
 	customer.CreatedAt = time.Now()
 	customer.UpdatedAt = time.Now()
+	customer.Address.Province = &province //FIXME: this should go into config and checked first
 
 	res, err := collection.InsertOne(ctx, customer)
 	if err != nil {
@@ -53,6 +55,25 @@ func (repo *Repository) CreateCustomer(customer *model.CreateCustomer) (*model.C
 	return cust, nil
 }
 
+func (repo *Repository) SaveCustomer(customer *model.Customer) (*model.Customer, error) {
+	collection := repo.db.Client.Database(repo.db.DBName).Collection(mongo.ColCustomer)
+	ctx, cancel := context.WithTimeout(cntx, 5*time.Second)
+	defer cancel()
+
+	customer.UpdatedAt = time.Now()
+	filter := bson.D{primitive.E{Key: "_id", Value: customer.ID}}
+	update := bson.D{primitive.E{Key: "$set", Value: customer}}
+
+	res, err := collection.UpdateOne(ctx, filter, update)
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+	fmt.Printf("res: %+v\n", res)
+
+	return customer, nil
+}
+
 func (repo *Repository) GetOne(id string) (*model.Customer, error) {
 	collection := repo.db.Client.Database(repo.db.DBName).Collection(mongo.ColCustomer)
 	ctx, cancel := context.WithTimeout(cntx, 5*time.Second)
@@ -66,7 +87,7 @@ func (repo *Repository) GetOne(id string) (*model.Customer, error) {
 		log.Fatalf("customer FindOne error: %s", err)
 		return nil, errors.New(fmt.Sprintf("customer record for id %s does not exist", id))
 	}
-	fmt.Printf("cust: %+v\n", cust.CreatedAt)
+
 	return cust, nil
 }
 

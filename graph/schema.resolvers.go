@@ -20,7 +20,7 @@ func (r *mutationResolver) CreateCustomer(ctx context.Context, input model.Creat
 }
 
 func (r *mutationResolver) UpdateCustomer(ctx context.Context, id string, update model.UpdateCustomer) (*model.Customer, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.service.UpdateCustomer(id, &update)
 }
 
 func (r *mutationResolver) DeleteCustomer(ctx context.Context, id string) (bool, error) {

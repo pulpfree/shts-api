@@ -9,6 +9,8 @@ import (
 
 type IService interface {
 	CreateCustomer(*model.CreateCustomer) (*model.Customer, error)
+	SaveCustomer(*model.Customer) (*model.Customer, error)
+	UpdateCustomer(string, *model.UpdateCustomer) (*model.Customer, error)
 	GetCustomer(string) (*model.Customer, error)
 	ListCustomers() ([]*model.Customer, error)
 	SubscribeCustomerCreation() *CustomerServiceObserver

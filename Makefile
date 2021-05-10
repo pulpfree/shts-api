@@ -5,7 +5,10 @@ gen:
 	go run github.com/99designs/gqlgen generate
 
 run: build
-	./server
+	PORT=80 ./server
+
+serve: build
+	PORT=80 ./server
 
 # found this at: https://www.sysleaf.com/go-hot-reload/
 watch:

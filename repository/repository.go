@@ -7,6 +7,7 @@ import (
 
 type IRepository interface {
 	CreateCustomer(customer *model.CreateCustomer) (*model.Customer, error)
+	SaveCustomer(customer *model.Customer) (*model.Customer, error)
 	GetOne(string) (*model.Customer, error)
 	GetAll() ([]*model.Customer, error)
 	GetCreationStream() chan *model.Customer
